@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Plant Desease</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="https://png.pngtree.com/png-vector/20200121/ourmid/pngtree-green-leaf-logo-vector-template-png-image_2132738.jpg">
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.css') }}">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th {
+            background-color: #2f9c74;
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            width: auto;
+            color: white;
+        }
+
+        .custom-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+    </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng nhập</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" style="background-color: #0C5C36; color: white;" class="btn">Đăng bài</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng ký</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/register">
+                        <div class="form-group">
+                            <label for="name">Tên đăng nhập:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section style="background-color: #a2e4a4;" class="covers text-center">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+                <a class="navbar-brand" href="#">PLANT<span style="color: white;">DESEASE</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-4"
+                    aria-controls="navbar-4" aria-expanded="false" aria-label="Toggle navigation"><i
+                        class="fas fa-bars"></i></button>
+                <div class="collapse navbar-collapse" id="navbar-4">
+                    <ul class="navbar-nav mr-auto">
+
+                    </ul>
+                    <span class="navbar-text">
+                        <ul class="navbar-nav mr-auto" style="font-weight: bold;">
+                            {% if not username %}
+                            {% else %}
+                            <li>
+
+                                <div class="navbar-brand " href="{{ url_for('home_view') }}"
+                                    style="display: flex; align-items: center; padding-bottom: 20px;">
+                                    <img width="30" style="height: auto; border-radius: 50%; padding-bottom: 10px;" src="{{ imgsrc }}"
+                                        alt="alternative">
+                                    <h6 style="color: #007bff; font-weight: bold;">Xin chào: {{username}}</h6>
+                                </div>
+                            </li>
+
+                            {% endif %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('home_view') }}">Trang chủ <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('predicts') }}">Dự đoán</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('forum') }}">Diễn đàn</a>
+                            </li>
+                            {% if not username %}
+                            <li class="nav-item active">
+                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModals">Đăng ký</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Đăng nhập</a>
+                            </li>
+                            {% endif %}
+                            {% if not username %}
+                            {% else %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('logout')}}">Đăng xuất</a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                        <div class="clear"></div>
+                    </span>
+                </div>
+            </nav>
+            <div class="cover-containe " style="position: absolute; top: 25%; max-width: 900px; padding-bottom: 100px;">
+                <div class="cover-inner text-left">
+                  
+                        {{ recommendation }}
+            
+            </div>
+    </section>
+    <br>
+    <br>
+    
+    <section id="tchung" class="content" style="background-color: #a2e4a4; display: none;"> <a name="about"></a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-feature">
+                    <img id="previews" style="width: 100%;border-radius: 15px;"
+                        src="https://static.vecteezy.com/system/resources/previews/011/793/510/non_2x/simplicity-zanzibar-gem-plant-simplicity-freehand-drawing-flat-design-free-png.png"
+                        class="img-fluid">
+
+                </div>
+
+                <div class="col-md-8 col-feature">
+                    <div class="icon-container d-flex align-items-center justify-content-center mb-4">
+                        <svg class="svg-inline--fa fa-lightbulb fa-w-12 fa-3x" aria-hidden="true" data-fa-processed=""
+                            data-prefix="far" data-icon="lightbulb" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 384 512">
+                            <path fill="currentColor"
+                                d="M272 428v28c0 10.449-6.68 19.334-16 22.629V488c0 13.255-10.745 24-24 24h-80c-13.255 0-24-10.745-24-24v-9.371c-9.32-3.295-16-12.18-16-22.629v-28c0-6.627 5.373-12 12-12h136c6.627 0 12 5.373 12 12zM128 176c0-35.29 28.71-64 64-64 8.837 0 16-7.164 16-16s-7.163-16-16-16c-52.935 0-96 43.065-96 96 0 8.836 7.164 16 16 16s16-7.164 16-16zm64-128c70.734 0 128 57.254 128 128 0 77.602-37.383 60.477-80.98 160h-94.04C101.318 236.33 64 253.869 64 176c0-70.735 57.254-128 128-128m0-48C94.805 0 16 78.803 16 176c0 101.731 51.697 91.541 90.516 192.674 3.55 9.249 12.47 15.326 22.376 15.326h126.215c9.906 0 18.826-6.078 22.376-15.326C316.303 267.541 368 277.731 368 176 368 78.803 289.195 0 192 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h4 class="mb-3" id="name"></h4>
+                    <p id="trieuchung"></p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <h3 class="mb-4 mt-4" id="name"></h3>
+                <p style="text-align: justify;" class="pl-5 pr-5" id="trieuchung"></p>
+            </div>
+        </div>
+    </section>
+    <section id="ctri" class="content" style="background-color: #a2e4a4; display: none;">
+        <div class="container">
+            <div class="row justify-center mt-5">
+                <div class="col-md-6 text-left">
+                    <h3>Cách chữa trị bệnh</h3>
+                    <p class="mt-4 mb-5" id="chuatri"></p>
+                </div>
+                <div class="col-md-6 pl-5 pr-5 text-center">
+                    <img class="mb-4 img-fluid" style="max-width: 60%;"
+                        src="https://medialoot.com/preview/startup-landing-page/images/research-and-development.svg">
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section id="blq" class="content" style="background-color: #a2e4a4; display: none;">
+        <div class="container">
+            <div class="row justify-center mt-5">
+                <!-- <div class="col-md-6 pl-5 pr-5 text-center">
+                    <img class="mb-4 img-fluid" style="max-width: 100%;"
+                        src="https://ucarecdn.com/2aab355e-cb88-4c71-a000-3a2374379f46/-/format/auto/-/stretch/off/-/resize/3000x/-/quality/lighter/">
+                </div> -->
+                <div class="col-md-12 ">
+                    <h3 class="text-center">Gợi ý các bệnh có liên quan</h3>
+                    <!-- <p class="lead mt-4 mb-5" id="benhlienquan"></p> -->
+                    <div class="text-left" id="table-container"></div>
+                    <!-- <div class="row">
+                        <div class="col-md-6 col-feature mb-4">
+                            <h5 class="mb-3">Clean Design</h5>
+                            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        </div>
+                        <div class="col-md-6 col-feature mb-4">
+                            <h5 class="mb-3">Bootstrap 4</h5>
+                            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer style="background-color: #a2e4a4;" class="footer pd-5">
+        <div class="container">
+            <div class="row mb-5 text-center text-md-left">
+                <div class="col-md-3 col-lg-4 mb-3">
+                    <a class="navbar-brand" href="#">Plant<span style="color: white;">Desease</span></a>
+                </div>
+                <div class="col-md-3 offset-lg-2 col-lg-2 pt-2">
+                    <h5>Category 1</h5>
+                    <ul class="nav-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tour">Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg-2 pt-2">
+                    <h5>Category 2</h5>
+                    <ul class="nav-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tour">Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg-2 pt-2">
+                    <h5>Category 3</h5>
+                    <ul class="nav-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tour">Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="container-fluid">
+            <div class="divider"></div>
+        </div> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-left mt-2 mb-3 pt-1">
+                    <p class="copyright" style="color: #203856;">Copyright &copy; YourStartup. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-right mb-4">
+                    <ul class="social">
+                        <li><a href="#" title="Facebook"><em class="fab fa-facebook-f"></em></a></li>
+                        <li><a href="#" title="Twitter"><em class="fab fa-twitter"></em></a></li>
+                        <li><a href="#" title="Google+"><em class="fab fa-google-plus-g"></em></a></li>
+                        <li><a href="#" title="Dribbble"><em class="fab fa-dribbble"></em></a></li>
+                        <li><a href="#" title="Instagram"><em class="fab fa-instagram"></em></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script> -->
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+
+    <script>
+        function submitForm() {
+            var form = $('#uploadForm')[0];
+            var formData = new FormData(form);
+            // Use jQuery to make the Ajax request
+            $.ajax({
+                url: '/predict_image',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.predict == "desease") {
+                        const imagess = document.getElementById('preview');
+                        imagess.style.display = 'none';
+                        const tchung = document.getElementById('tchung');
+                        const ctri = document.getElementById('ctri');
+                        const blq = document.getElementById('blq');
+                        tchung.style.display = 'block';
+                        ctri.style.display = 'block';
+                        blq.style.display = 'block';
+                        window.scrollBy(0, window.innerHeight * 1.25);
+                        $('#name').text(data.name);
+                        $('#trieuchung').text(data.symptom);
+                        $('#chuatri').text(data.treatment);
+
+                        // Tạo một đối tượng table
+                        var table = document.createElement('table');
+                        // table.className = 'table table-hover'; // Thêm lớp 'table' vào bảng
+                        table.classList.add('custom-table'); // Thêm lớp 'custom-table' vào bảng
+
+                        // Tạo một hàng đầu tiên cho tiêu đề cột
+                        var headerRow = document.createElement('tr');
+                        // Tiêu đề cột rc
+                        var rcHeaderCell = document.createElement('th');
+                        rcHeaderCell.textContent = 'Tên liên quan';
+                        headerRow.appendChild(rcHeaderCell);
+
+                        // Tiêu đề cột rss
+                        var rssHeaderCell = document.createElement('th');
+                        rssHeaderCell.textContent = 'Cách chữa trị';
+                        headerRow.appendChild(rssHeaderCell);
+
+                        table.appendChild(headerRow);
+
+                        // Tách chuỗi rc thành mảng các dòng
+                        var rcLines = data.rc.split('\n');
+
+                        // Tách chuỗi rss thành mảng các dòng
+                        var rssLines = data.rss.split('\n');
+
+                        // Đảm bảo số lượng dòng của cả hai cột bằng nhau
+                        var rowCount = Math.max(rcLines.length, rssLines.length);
+
+                        for (var i = 0; i < rowCount; i++) {
+                            var dataRow = document.createElement('tr');
+
+                            // Ô dữ liệu cho cột rc
+                            var rcCell = document.createElement('td');
+                            rcCell.textContent = i < rcLines.length ? rcLines[i] : 'Không có dữ liệu.'; // Kiểm tra xem còn dòng rcLines hay không
+                            dataRow.appendChild(rcCell);
+
+                            // Ô dữ liệu cho cột rss
+                            var rssCell = document.createElement('td');
+                            rssCell.textContent = i < rssLines.length ? rssLines[i] : 'Không có dữ liệu'; // Kiểm tra xem còn dòng rssLines hay không
+                            dataRow.appendChild(rssCell);
+
+
+                            table.appendChild(dataRow);
+                        }
+
+                        // Đưa bảng vào một đối tượng HTML có id là "table-container"
+                        var tableContainer = document.getElementById('table-container');
+                        tableContainer.appendChild(table);
+
+                    } else {
+                        const tchung = document.getElementById('tchung');
+                        tchung.style.display = 'block';
+                        window.scrollBy(0, window.innerHeight * 1.25);
+                        $('#name').text(data.name);
+                    }
+
+                    // $('#benhlienquan').val(data.rc);
+
+
+                    // trieuchung
+                    // Convert the JSON response to a formatted string
+                    var jsonStr = JSON.stringify(data, null, 2);
+                    // Display the JSON string in the resultDiv element
+                    var resultDiv = $('#result');
+                    resultDiv.text(jsonStr);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Request failed with status', xhr.status, error);
+                }
+            });
+        }
+
+        // Submit the form when it's submitted
+        $('#uploadForm').submit(function (event) {
+            event.preventDefault();
+            submitForm();
+        });
+    </script>
+    <script>
+        // Get references to the input and image elements
+        const input = document.getElementById('tb-file-upload');
+        const image = document.getElementById('preview');
+        const images = document.getElementById('previews');
+
+        // Add an event listener to the input element
+        input.addEventListener('change', (event) => {
+            // Create a FileReader object
+            const reader = new FileReader();
+
+            // Set up the FileReader onload event
+            reader.onload = (e) => {
+                // Set the image source to the result of the FileReader
+                image.src = e.target.result;
+            };
+
+            // Read the selected file as a data URL
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        // Add an event listener to the input element
+        input.addEventListener('change', (event) => {
+            // Create a FileReader object
+            const reader = new FileReader();
+
+            // Set up the FileReader onload event
+            reader.onload = (e) => {
+                // Set the image source to the result of the FileReader
+                images.src = e.target.result;
+            };
+
+            // Read the selected file as a data URL
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Plant Desease</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="https://png.pngtree.com/png-vector/20200121/ourmid/pngtree-green-leaf-logo-vector-template-png-image_2132738.jpg">
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.css') }}">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+   
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng nhập</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" style="background-color: #0C5C36; color: white;" class="btn">Đăng bài</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng ký</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/register">
+                        <div class="form-group">
+                            <label for="name">Tên đăng nhập:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section style="background-color: #a2e4a4;" class="text-center">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+                <a class="navbar-brand" href="#">PLANT<span style="color: white;">DESEASE</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-4"
+                    aria-controls="navbar-4" aria-expanded="false" aria-label="Toggle navigation"><i
+                        class="fas fa-bars"></i></button>
+                <div class="collapse navbar-collapse" id="navbar-4">
+                    <ul class="navbar-nav mr-auto">
+
+                    </ul>
+                    <span class="navbar-text">
+                        <ul class="navbar-nav mr-auto" style="font-weight: bold;">
+                            {% if not username %}
+                            {% else %}
+                            <li>
+
+                                <div class="navbar-brand " href="{{ url_for('home_view') }}"
+                                    style="display: flex; align-items: center; padding-bottom: 20px;">
+                                    <img width="30" style="height: auto; border-radius: 50%; padding-bottom: 10px;" src="{{ imgsrc }}"
+                                        alt="alternative">
+                                    <h6 style="color: #007bff; font-weight: bold;">Xin chào: {{username}}</h6>
+                                </div>
+                            </li>
+
+                            {% endif %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('home_view') }}">Trang chủ <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('predicts') }}">Dự đoán</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('forum') }}">Diễn đàn</a>
+                            </li>
+                            {% if not username %}
+                            <li class="nav-item active">
+                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModals">Đăng ký</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Đăng nhập</a>
+                            </li>
+                            {% endif %}
+                            {% if not username %}
+                            {% else %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('logout')}}">Đăng xuất</a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                        <div class="clear"></div>
+                    </span>
+                </div>
+            </nav>
+    </section>
+    <section class="content" style="background-color: #a2e4a4;">
+        <div class="container">
+            <div class="row justify-center mt-5">
+                <div class="col-md-6 text-left">
+                    <h3 class="text-center">Đề xuất cây trồng cho đất</h3>
+                    <div class="card" style="width: 100%; border:1px #a2e4a4 solid;">
+                        <div class="card-body" style="background-color: #a2e4a4;">
+                            <form method="POST" action="{{ url_for('fert_recommend') }}">
+                                <div class="form-group">
+                                    <label for="Nitrogen" style="font-size: 17px"><b>Nitơ</b></label>
+                                    <input type="number" class="form-control" id="Nitrogen" name="nitrogen"
+                                        placeholder="Enter the value (example:50)" style="font-weight: bold" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Phosphorous" style="font-size: 17px"><b>Phốt pho</b></label>
+                                    <input type="number" class="form-control" id="Phosphorous" name="phosphorous"
+                                        placeholder="Enter the value (example:50)" style="font-weight: bold" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Pottasium" style="font-size: 17px"><b>Kali</b></label>
+                                    <input type="number" class="form-control" id="Pottasium" name="pottasium"
+                                        placeholder="Enter the value (example:50)" style="font-weight: bold" required />
+                                </div>
+                                <!-- <div class="form-group">
+                                  <label for="ph" style="font-size: 17px"><b>ph level</b></label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id="ph"
+                                    name="ph"
+                                    placeholder="Enter the value"
+                                    style="font-weight: bold"
+                                    required
+                                  />
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="crop" style="font-size: 17px"><b>Chọn cây trồng</b></label>
+                                    <select name="cropname" class="form-control" id="crop" placeholder="Select a crop"
+                                        style="font-weight: bold" required>
+                                        <option selected>Lựa chọn cây trồng</option>
+                                        <option value="rice">Gạo</option>
+                                        <option value="maize">Ngô</option>
+                                        <option value="chickpea">Đậu nành</option>
+                                        <option value="kidneybeans">Đậu tương</option>
+                                        <option value="pigeonpeas">Đậu xanh</option>
+                                        <option value="mothbeans">Đậu đen</option>
+                                        <option value="mungbean">Đậu xanh mung</option>
+                                        <option value="blackgram">Đậu đen</option>
+                                        <option value="lentil">Đậu lăng</option>
+                                        <option value="pomegranate">Lựu</option>
+                                        <option value="banana">Chuối</option>
+                                        <option value="mango">Xoài</option>
+                                        <option value="grapes">Nho</option>
+                                        <option value="watermelon">Dưa hấu</option>
+                                        <option value="muskmelon">Dưa lưới</option>
+                                        <option value="apple">Táo</option>
+                                        <option value="orange">Cam</option>
+                                        <option value="papaya">Đu đủ</option>
+                                        <option value="coconut">Dừa</option>
+                                        <option value="cotton">Bông</option>
+                                        <option value="jute">Đay</option>
+                                        <option value="coffee">Cà phê</option>
+                                        
+                                    </select>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-white btn-lg pill-btn mb-2" style="font-size: larger; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  font-weight: 800;color: #1877f2;">
+                                        BẮT ĐẦU</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6 pl-5 pr-5 text-center">
+                <img id="imgchange" class="mb-4 img-fluid" style="max-width: 100%;"
+                    src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2022/07/plant-growing-gif.gif?auto=format&q=60&fit=max&w=930">
+                    <h3 id="label"></h3>
+            </div> -->
+        </div>
+        </div>
+    </section>
+
+    <footer style="background-color: #a2e4a4;" class="footer">
+        <div class="container">
+            <div class="row mb-5 text-center text-md-left">
+                <div class="col-md-3 col-lg-4 mb-3">
+                    <a class="navbar-brand" href="#">Plant<span style="color: white;">Desease</span></a>
+                </div>
+                <div class="col-md-3 offset-lg-2 col-lg-2 pt-2">
+                    <h5>Category 1</h5>
+                    <ul class="nav-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tour">Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg-2 pt-2">
+                    <h5>Category 2</h5>
+                    <ul class="nav-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tour">Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg-2 pt-2">
+                    <h5>Category 3</h5>
+                    <ul class="nav-footer">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tour">Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="container-fluid">
+            <div class="divider"></div>
+        </div> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-left mt-2 mb-3 pt-1">
+                    <p class="copyright" style="color: #203856;">Copyright &copy; YourStartup. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-right mb-4">
+                    <ul class="social">
+                        <li><a href="#" title="Facebook"><em class="fab fa-facebook-f"></em></a></li>
+                        <li><a href="#" title="Twitter"><em class="fab fa-twitter"></em></a></li>
+                        <li><a href="#" title="Google+"><em class="fab fa-google-plus-g"></em></a></li>
+                        <li><a href="#" title="Dribbble"><em class="fab fa-dribbble"></em></a></li>
+                        <li><a href="#" title="Instagram"><em class="fab fa-instagram"></em></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#predictForm").submit(function (e) {
+                e.preventDefault(); // Prevent the form from submitting in the traditional way
+
+                // Serialize form data
+                var formData = $(this).serialize();
+
+                // Send an AJAX request
+                $.ajax({
+                    type: "POST",
+                    url: "/predict_crop",
+                    data: formData,
+                    success: function (data) {
+                        // Update the HTML content with the prediction data
+                        var newImageUrl = data.src_url;
+                        $("#imgchange").attr("src", newImageUrl);
+                        // Optionally, you can also set the alt attribute for accessibility
+                        $("#imgchange").attr("alt", "Predicted Crop Image");
+                        $("#label").html("Gợi ý nên trồng cây " + data.predict_res);
+                    },
+                    error: function (error) {
+                        // Handle errors
+                        $("#predictionResult").html("Error: " + error.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>
